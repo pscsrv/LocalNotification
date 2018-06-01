@@ -120,8 +120,9 @@ public class Builder {
         int ledColor  = options.getLedColor();
         NotificationCompat.Builder builder;
 
-        builder = new NotificationCompat.Builder(context)
+        builder = new NotificationCompat.Builder(context, Manager.CHANNEL_ID)
                 .setDefaults(0)
+                .setChannelId(options.getChannel())
                 .setContentTitle(options.getTitle())
                 .setContentText(options.getText())
                 .setNumber(options.getBadgeNumber())

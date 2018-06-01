@@ -23,9 +23,11 @@
 
 package de.appplant.cordova.plugin.notification;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,6 +47,10 @@ import static de.appplant.cordova.plugin.notification.Notification.PREF_KEY;
  */
 public class Manager {
 
+    static final String CHANNEL_ID = "default-channel-id";
+
+    private static final CharSequence CHANNEL_NAME = "Default channel";
+
     // Context passed through constructor and used for notification builder.
     private Context context;
 
@@ -56,6 +62,7 @@ public class Manager {
      */
     private Manager(Context context){
         this.context = context;
+        createDefaultChannel();
     }
 
     /**
@@ -453,6 +460,24 @@ public class Manager {
     private NotificationManager getNotMgr () {
         return (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
+    }
+
+    private void createDefaultChannel() {
+        NotificationManager mgr = (NotificationManager)
+                context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
+            return;
+
+        NotificationChannel channel = mgr.getNotificationChannel(CHANNEL_ID);
+
+        if (channel != null)
+            return;
+
+        channel = new NotificationChannel(
+                CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
+
+        mgr.createNotificationChannel(channel);
     }
 
 }

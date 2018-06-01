@@ -368,6 +368,13 @@ public class Options {
     }
 
     /**
+     * The channel id of that notification.
+     */
+    String getChannel() {
+        return options.optString("channel", Manager.CHANNEL_ID);
+    }
+
+    /**
      * JSON object as string.
      */
     public String toString() {
