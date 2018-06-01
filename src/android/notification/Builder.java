@@ -148,6 +148,7 @@ public class Builder {
 
         applyDeleteReceiver(builder);
         applyContentReceiver(builder);
+        applyBigTextStyle(builder);
 
         return new Notification(context, options, builder, triggerReceiver);
     }
@@ -196,6 +197,20 @@ public class Builder {
                 context, reqCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         builder.setContentIntent(contentIntent);
+    }
+
+    /**
+     * Apply big text style.
+     *
+     * @param builder Local notification builder instance.
+     */
+    private void applyBigTextStyle(NotificationCompat.Builder builder) {
+        NotificationCompat.BigTextStyle style;
+
+        style = new NotificationCompat.BigTextStyle(builder)
+                .bigText(options.getText());
+
+        builder.setStyle(style);
     }
 
 }
